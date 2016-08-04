@@ -1,0 +1,30 @@
+{
+  "name": "twitter-clone",
+  "version": "1.0.0",
+  "description": "Twitter clone, written in React, Flux, and Rails",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricky1477/twitter_clon.git"
+  },
+  "author": "Ricardo Kreyhsig",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ricky1477/twitter_clon/issues"
+  },
+  "homepage": "https://github.com/ricky1477/twitter_clon#readme",
+  "dependencies": {
+    "babel-loader": "^6.2.4",
+    "jquery": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4"
+  }
+}
