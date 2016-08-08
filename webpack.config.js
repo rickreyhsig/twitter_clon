@@ -1,4 +1,4 @@
-module.exports = {
+/*module.exports = {
     entry: "./app/assets/frontend/main.jsx",
     output: {
         path: __dirname + "/app/assets/javascripts",
@@ -8,8 +8,58 @@ module.exports = {
         extensions: ['', '.js', '.jsx']
     },
     module: {
-        loaders: [
-            { test: /\.jsx$/, loader: "babel-loader" }
+        loaders: [ {
+            test: /\.jsx$/, loader: "babel-loader",
+            query: {
+                presets: ['react']
+            }
+         }
         ]
     }
+}; */
+
+module.exports = {
+
+entry: "./app/assets/frontend/main.jsx",
+
+  output: {
+
+      path: __dirname + "/app/assets/javascripts",
+
+      filename: "bundle.js"
+
+  },
+
+  resolve: {
+
+    extensions: ['', '.js', '.jsx']
+
+  },
+
+  module: {
+
+      loaders: [
+
+          {
+
+            test: /\.jsx$/,
+
+            exclude: /node_modules/,
+
+            loader: "babel",
+
+            query: {
+
+              cacheDirectory: true,
+
+              presets: ['es2015', 'react']
+
+            }
+
+          }
+
+      ]
+
+  }
+
 };
