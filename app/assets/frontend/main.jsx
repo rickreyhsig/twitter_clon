@@ -8,11 +8,21 @@ let mockTweets = [
 ]
 
 class Main extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = { tweetsList: mockTweets };
+	}
+	addTweet(tweetToAdd){
+		// mockTweets.unshift({...})
+		let newTweetsList = this.state.tweetsList;
+		newTweetsList.unshift({ id: Date.now(), name: 'Guest', body: tweetToAdd });
+		this.setState({ tweetsList: newTweetsList });
+	}
     render() {
         return(
         <div className="container">
-        	<TweetBox />
-        	<TweetsList tweets={mockTweets}/>
+        	<TweetBox sendTweet={this.addTweet.bind(this)} />
+        	<TweetsList tweets={this.state.tweetsList}/>
         </div>
         );
     }
