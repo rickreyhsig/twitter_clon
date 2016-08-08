@@ -1,16 +1,10 @@
 import TweetBox from "./components/TweetBox"
 import TweetsList from "./components/TweetsList"
 
-let mockTweets = [
-	{ id: 1, name: 'Ricardo Kreyhsig', body: 'My #FirstTweet' },
-	{ id: 2, name: 'Ricardo Kreyhsig', body: 'My #SecondTweet' },
-	{ id: 3, name: 'Kaio Kreyhsig', body: 'My #FirstTweet' }
-]
-
 class Main extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = { tweetsList: mockTweets };
+		this.state = { tweetsList: [] };
 	}
 	addTweet(tweetToAdd){
 		// mockTweets.unshift({...})
@@ -29,10 +23,10 @@ class Main extends React.Component {
 }
 
 let documentReady = () => {
-    React.render(
-      <Main/>,
-      document.getElementById('react')
-    );
+	let reactNode = document.getElementById('react');
+	if (reactNode) {
+		React.render(<Main/>,reactNode);
+	}
 };
 
 $(documentReady);

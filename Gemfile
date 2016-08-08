@@ -8,6 +8,7 @@ gem 'rails', '4.2.4'
 #gem 'rack', github: 'rack/rack'
 #gem 'arel', github: 'rails/arel'
 gem 'react-rails'
+gem 'devise'
 gem 'rails_12factor', group: :production
 ruby '2.2.2'
 
