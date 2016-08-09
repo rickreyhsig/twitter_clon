@@ -4,3 +4,6 @@ Twitter-clone single page application that uses
 a Rails API on the backend and REACT and FLUX on the frontend.
 
 <https://twitter-clon.herokuapp.com/>
+
+Backup Repo
+<https://gitlab.com/ricky1477/twitter-clone>
