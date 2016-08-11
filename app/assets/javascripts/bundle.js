@@ -51,11 +51,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _TweetBox = __webpack_require__(/*! ./components/TweetBox */ 2);
+	var _TweetBox = __webpack_require__(/*! ./components/TweetBox */ 1);
 	
 	var _TweetBox2 = _interopRequireDefault(_TweetBox);
 	
-	var _TweetsList = __webpack_require__(/*! ./components/TweetsList */ 3);
+	var _TweetsList = __webpack_require__(/*! ./components/TweetsList */ 2);
 	
 	var _TweetsList2 = _interopRequireDefault(_TweetsList);
 	
@@ -142,8 +142,7 @@
 	$(documentReady);
 
 /***/ },
-/* 1 */,
-/* 2 */
+/* 1 */
 /*!*****************************************************!*\
   !*** ./app/assets/frontend/components/TweetBox.jsx ***!
   \*****************************************************/
@@ -210,7 +209,7 @@
 	exports.default = TweetBox;
 
 /***/ },
-/* 3 */
+/* 2 */
 /*!*******************************************************!*\
   !*** ./app/assets/frontend/components/TweetsList.jsx ***!
   \*******************************************************/
@@ -226,7 +225,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Tweet = __webpack_require__(/*! ./Tweet */ 4);
+	var _Tweet = __webpack_require__(/*! ./Tweet */ 3);
 	
 	var _Tweet2 = _interopRequireDefault(_Tweet);
 	
@@ -271,7 +270,7 @@
 	exports.default = TweetsList;
 
 /***/ },
-/* 4 */
+/* 3 */
 /*!**************************************************!*\
   !*** ./app/assets/frontend/components/Tweet.jsx ***!
   \**************************************************/
