@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :followers
+  resources :followers do |r|
+    collection do
+      get 'random'
+    end
+  end
+
   resources :tweets
   #get 'profile/index'
   get 'profile' => 'profile#index'
