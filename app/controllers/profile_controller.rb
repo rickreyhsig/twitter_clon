@@ -5,6 +5,7 @@ class ProfileController < ApplicationController
     end
 
     def update
+        current_user.update(user_params)
         current_user.first_name = user_params[:first_name] if user_params[:first_name]
         current_user.last_name = user_params[:last_name] if user_params[:last_name]
         redirect_to root_path

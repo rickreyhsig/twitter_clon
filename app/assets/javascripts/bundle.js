@@ -87,42 +87,16 @@
 		function Main(props) {
 			_classCallCheck(this, Main);
 	
-			//this.state = { tweetsList: [] };
 			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this, props));
 	
 			_this.state = getAppState();
 			_this._onChange = _this._onChange.bind(_this);
 			return _this;
 		}
-		//formattedTweets(tweetsList){
-		//	let formattedList = tweetsList.map(tweet => {
-		//		tweet.formattedDate = moment(tweet.created_at).fromNow();
-		//		return tweet;
-		//	});
-		//	return{
-		//		tweetsList: formattedList
-		//	};
-		//}
-	
 	
 		_createClass(Main, [{
-			key: "addTweet",
-			value: function addTweet(tweetToAdd) {
-				//$.post("/tweets", { body: tweetToAdd })
-				//.success( savedTweet => {
-				//	let newTweetsList = this.state.tweetsList;
-				//	newTweetsList.unshift(savedTweet);
-				//	//this.setState({ tweetsList: newTweetsList });
-				//	this.setState(this.formattedTweets(newTweetsList));
-				//})
-				//.error(error => console.log(error));
-			}
-		}, {
 			key: "componentDidMount",
 			value: function componentDidMount() {
-				//$.ajax("/tweets")
-				//.success(data => this.setState( this.formattedTweets(data) ))
-				//.error(error => console.log(error));
 				_TweetStore2.default.addChangeListener(this._onChange);
 			}
 		}, {
@@ -133,7 +107,6 @@
 		}, {
 			key: "_onChange",
 			value: function _onChange() {
-				console.log(5, "Main._onChange");
 				this.setState(getAppState());
 			}
 		}, {
@@ -142,7 +115,7 @@
 				return React.createElement(
 					"div",
 					{ className: "container" },
-					React.createElement(_TweetBox2.default, { sendTweet: this.addTweet.bind(this) }),
+					React.createElement(_TweetBox2.default, null),
 					React.createElement(_TweetsList2.default, { tweets: this.state.tweetsList })
 				);
 			}
@@ -165,7 +138,7 @@
 /*!*****************************************************!*\
   !*** ./app/assets/frontend/components/TweetBox.jsx ***!
   \*****************************************************/
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -174,6 +147,12 @@
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _TweetActions = __webpack_require__(/*! ../actions/TweetActions */ 11);
+	
+	var _TweetActions2 = _interopRequireDefault(_TweetActions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -194,7 +173,7 @@
 			key: "sendTweet",
 			value: function sendTweet(event) {
 				event.preventDefault();
-				this.props.sendTweet(this.refs.tweetTextArea.value);
+				_TweetActions2.default.sendTweet(this.refs.tweetTextArea.value);
 				this.refs.tweetTextArea.value = '';
 			}
 		}, {
@@ -428,8 +407,11 @@
 		switch (action.actionType) {
 	
 			case _constants2.default.RECEIVED_TWEETS:
-				console.log(4, "TweetStore");
 				_tweets = action.rawTweets;
+				TweetStore.emitChange();
+				break;
+			case _constants2.default.RECEIVED_ONE_TWEET:
+				_tweets.unshift(action.rawTweet);
 				TweetStore.emitChange();
 				break;
 			default:
@@ -931,7 +913,8 @@
 		value: true
 	});
 	exports.default = {
-		RECEIVED_TWEETS: 'RECEIVED_TWEETS'
+		RECEIVED_TWEETS: 'RECEIVED_TWEETS',
+		RECEIVED_ONE_TWEET: 'RECEIVED_ONE_TWEET'
 	};
 
 /***/ },
@@ -955,8 +938,10 @@
 	
 	exports.default = {
 		getAllTweets: function getAllTweets() {
-			console.log(1, "TweetActions");
 			_API2.default.getAllTweets();
+		},
+		sendTweet: function sendTweet(body) {
+			_API2.default.createTweet(body);
 		}
 	};
 
@@ -981,9 +966,15 @@
 	
 	exports.default = {
 		getAllTweets: function getAllTweets() {
-			console.log(2, "API.getAllTweets");
 			$.get("/tweets").success(function (rawTweets) {
 				return _ServerActions2.default.receivedTweets(rawTweets);
+			}).error(function (error) {
+				return console.log(error);
+			});
+		},
+		createTweet: function createTweet(body) {
+			$.post("/tweets", { body: body }).success(function (rawTweet) {
+				return _ServerActions2.default.receivedOneTweet(rawTweet);
 			}).error(function (error) {
 				return console.log(error);
 			});
@@ -1015,10 +1006,15 @@
 	
 	exports.default = {
 		receivedTweets: function receivedTweets(rawTweets) {
-			console.log(3, "ServerActions.receivedTweets");
 			_dispatcher2.default.dispatch({
 				actionType: _constants2.default.RECEIVED_TWEETS,
 				rawTweets: rawTweets
+			});
+		},
+		receivedOneTweet: function receivedOneTweet(rawTweet) {
+			_dispatcher2.default.dispatch({
+				actionType: _constants2.default.RECEIVED_ONE_TWEET,
+				rawTweet: rawTweet
 			});
 		}
 	};
