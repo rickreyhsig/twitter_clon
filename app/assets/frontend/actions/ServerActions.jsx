@@ -20,5 +20,11 @@ export default {
 			rawUsers
 		})
 	},
+	receivedOneFollower(rawFollower){
+		AppDispatcher.dispatch({
+			actionType: ActionTypes.RECEIVED_ONE_FOLLOWER,
+			rawFollower
+		})
+	}
 
 }

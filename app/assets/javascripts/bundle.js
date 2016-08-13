@@ -25628,6 +25628,13 @@
 			}).error(function (error) {
 				return console.log(error);
 			});
+		},
+		followUser: function followUser(userId) {
+			$.post("/followers", { user_id: userId }).success(function (rawFollower) {
+				return _ServerActions2.default.receivedOneFollower(rawFollower);
+			}).error(function (error) {
+				return console.log(error);
+			});
 		}
 	};
 
@@ -25671,6 +25678,12 @@
 			_dispatcher2.default.dispatch({
 				actionType: _constants2.default.RECEIVED_USERS,
 				rawUsers: rawUsers
+			});
+		},
+		receivedOneFollower: function receivedOneFollower(rawFollower) {
+			_dispatcher2.default.dispatch({
+				actionType: _constants2.default.RECEIVED_ONE_FOLLOWER,
+				rawFollower: rawFollower
 			});
 		}
 	};
@@ -26028,7 +26041,9 @@
 	exports.default = {
 		RECEIVED_TWEETS: 'RECEIVED_TWEETS',
 		RECEIVED_ONE_TWEET: 'RECEIVED_ONE_TWEET',
-		RECEIVED_USERS: 'RECEIVED_USERS'
+		RECEIVED_USERS: 'RECEIVED_USERS',
+		RECEIVED_ONE_FOLLOWER: 'RECEIVED_ONE_FOLLOWER'
+	
 	};
 
 /***/ },
@@ -26625,8 +26640,20 @@
 				this.setState(getAppState());
 			}
 		}, {
+			key: 'followUser',
+			value: function followUser(userId) {
+				_UserActions2.default.followUser(userId);
+			}
+		}, {
+			key: 'followClasses',
+			value: function followClasses(following) {
+				return "secondary-content btn-floating " + (following ? 'green' : 'grey');
+			}
+		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+	
 				var users = this.state.users.map(function (user) {
 					return _react2.default.createElement(
 						'li',
@@ -26636,6 +26663,16 @@
 							'span',
 							{ className: 'title' },
 							user.name
+						),
+						_react2.default.createElement(
+							'a',
+							{ className: _this2.followClasses(user.following),
+								onClick: _this2.followUser.bind(_this2, user.id) },
+							_react2.default.createElement(
+								'i',
+								{ className: 'material-icons' },
+								' person_pin '
+							)
 						)
 					);
 				});
@@ -27475,6 +27512,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _users = [];
+	var _followedIds = [];
 	
 	var UserEventEmitter = function (_AppEventEmitter) {
 		_inherits(UserEventEmitter, _AppEventEmitter);
@@ -27488,7 +27526,10 @@
 		_createClass(UserEventEmitter, [{
 			key: "getAll",
 			value: function getAll() {
-				return _users;
+				return _users.map(function (user) {
+					user.following = _followedIds.indexOf(user.id) >= 0;
+					return user;
+				});
 			}
 		}]);
 	
@@ -27501,6 +27542,10 @@
 		switch (action.actionType) {
 			case _constants2.default.RECEIVED_USERS:
 				_users = action.rawUsers;
+				UserStore.emitChange();
+				break;
+			case _constants2.default.RECEIVED_ONE_FOLLOWER:
+				_followedIds.push(action.rawFollower.user_id);
 				UserStore.emitChange();
 				break;
 			default:
@@ -27588,6 +27633,9 @@
 	exports.default = {
 		getAllUsers: function getAllUsers() {
 			_API2.default.getAllUsers();
+		},
+		followUser: function followUser(userId) {
+			_API2.default.followUser(userId);
 		}
 	};
 
