@@ -10,5 +10,10 @@ export default {
 		$.post("/tweets", { body })
 		.success( rawTweet => ServerActions.receivedOneTweet(rawTweet) ) 
 		.error(error => console.log(error));
-	}
+	},
+	getAllUsers(){
+		$.get("/followers/random")
+		.success( rawUsers => ServerActions.receivedUsers(rawUsers) ) 
+		.error(error => console.log(error));
+	},
 }

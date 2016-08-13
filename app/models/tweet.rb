@@ -9,8 +9,7 @@ class Tweet < ActiveRecord::Base
 		user.display_name
 	end
 
-	def gravatar
-		hash = Digest::MD5.hexdigest(user.email)
-		"https://www.gravatar.com/avatar/#{hash}"
+    def gravatar
+		user.gravatar
 	end
 end
